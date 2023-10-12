@@ -40,6 +40,20 @@ function ToastProvider({ children }) {
     };
   }, [toasts, addToast, removeToast]);
 
+  const clearToasts = React.useCallback((event) => {
+    if (event.code === "Escape") {
+      setToasts([]);
+    }
+  }, []);
+
+  React.useEffect(() => {
+    window.addEventListener("keydown", clearToasts);
+
+    return () => {
+      window.removeEventListener("keydown", clearToasts);
+    };
+  }, [clearToasts]);
+
   return (
     <ToastContext.Provider value={value}>{children}</ToastContext.Provider>
   );
